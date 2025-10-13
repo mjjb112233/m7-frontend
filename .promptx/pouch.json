@@ -1,0 +1,114 @@
+{
+  "currentState": "initial",
+  "stateHistory": [
+    {
+      "from": "initial",
+      "command": "project",
+      "timestamp": "2025-10-13T09:48:27.708Z",
+      "args": [
+        {
+          "workingDirectory": "H:\\code\\m7\\test\\m7-frontend",
+          "ideType": "cursor"
+        }
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "discover",
+      "timestamp": "2025-10-13T09:48:30.506Z",
+      "args": []
+    },
+    {
+      "from": "initial",
+      "command": "action",
+      "timestamp": "2025-10-13T09:48:35.062Z",
+      "args": [
+        "luban"
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "recall",
+      "timestamp": "2025-10-13T09:50:55.343Z",
+      "args": [
+        {
+          "role": "luban",
+          "query": "前端项目重构 API目录 页面目录 分离架构"
+        }
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "remember",
+      "timestamp": "2025-10-13T10:09:34.470Z",
+      "args": [
+        {
+          "role": "luban",
+          "engrams": [
+            {
+              "content": "成功完成前端项目重构，实现了API目录和页面目录的分离架构。创建了app/api/和app/pages/目录结构，将原有的API文件和页面文件分别迁移到对应目录中，并建立了统一的入口文件。重构后的架构更加清晰，便于维护和扩展。",
+              "schema": "前端项目重构 API目录 页面目录 分离架构 成功完成",
+              "strength": 0.8,
+              "type": "PATTERN"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "remember",
+      "timestamp": "2025-10-13T10:12:36.736Z",
+      "args": [
+        {
+          "role": "luban",
+          "engrams": [
+            {
+              "content": "成功完成前端项目重构的导入路径更新和测试验证。所有页面文件已更新为重定向到新的页面结构，API导入路径已更新，项目构建测试通过，确认重构后的架构完全正常工作。",
+              "schema": "前端重构 导入路径更新 构建测试 成功完成",
+              "strength": 0.8,
+              "type": "PATTERN"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "remember",
+      "timestamp": "2025-10-13T10:59:27.907Z",
+      "args": [
+        {
+          "role": "luban",
+          "engrams": [
+            {
+              "content": "成功完成前端组件的低耦合重构。创建了独立的共享组件(UserProfileCard、UserStatsCard、PasswordChangeDialog、CVVDetectionCard、RechargePackageCard)和自定义hooks(useUserProfile、useRechargePackages、useCVVDetection)，实现了组件自主数据获取，降低了组件间的耦合度，提高了代码的模块化和可维护性。",
+              "schema": "前端组件重构 低耦合 模块化 自主数据获取 成功完成",
+              "strength": 0.8,
+              "type": "PATTERN"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "remember",
+      "timestamp": "2025-10-13T11:15:22.581Z",
+      "args": [
+        {
+          "role": "luban",
+          "engrams": [
+            {
+              "content": "成功完成项目重复代码清理工作。创建了统一的类型定义文件(app/shared/types/index.ts)，删除了重复的接口定义，统一了API结构，删除了旧的lib/api目录，创建了共享样式工具，并修复了所有导入错误。项目现在更加简洁，减少了代码重复，提高了可维护性。",
+              "schema": "重复代码清理 统一类型定义 API结构优化 成功完成",
+              "strength": 0.8,
+              "type": "PATTERN"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "lastUpdated": "2025-10-13T11:15:22.590Z"
+}
