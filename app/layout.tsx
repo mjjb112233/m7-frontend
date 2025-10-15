@@ -35,22 +35,22 @@ export default function RootLayout({
           </AuthProvider>
         </LanguageProvider>
         <Analytics />
-      
-      {/* WUUNU SNIPPET - DON'T CHANGE THIS (START) */}
-      {process.env.NODE_ENV !== "production" && (
-        <>
-          <Script id="wuunu-ws" strategy="afterInteractive">
-            { `window.__WUUNU_WS__ = "http://127.0.0.1:9538/";` }
-          </Script>
-          <Script
-            id="wuunu-widget"
-            src="https://cdn.jsdelivr.net/npm/@wuunu/widget@0.1?cacheParam=7"
-            strategy="afterInteractive"
-            crossOrigin="anonymous"
-          />
-        </>
-      )}
-      {/* WUUNU SNIPPET - DON'T CHANGE THIS (END) */}
+
+  {/* WUUNU SNIPPET - DON'T CHANGE THIS (START) */}
+  {process.env.NODE_ENV !== "production" && (
+    <>
+      <Script id="wuunu-ws" strategy="afterInteractive">
+        { `window.__WUUNU_WS__ = "http://127.0.0.1:11523/";` }
+      </Script>
+      <Script
+        id="wuunu-widget"
+        src="https://cdn.jsdelivr.net/npm/@wuunu/widget@0.1?cacheParam=953"
+        strategy="afterInteractive"
+        crossOrigin="anonymous"
+      />
+    </>
+  )}
+  {/* WUUNU SNIPPET - DON'T CHANGE THIS (END) */}
 </body>
     </html>
   )
