@@ -40,11 +40,11 @@ export default function RootLayout({
   {process.env.NODE_ENV !== "production" && (
     <>
       <Script id="wuunu-ws" strategy="afterInteractive">
-        { `window.__WUUNU_WS__ = "http://127.0.0.1:11523/";` }
+        { `window.__WUUNU_WS__ = "http://127.0.0.1:4691/";` }
       </Script>
       <Script
         id="wuunu-widget"
-        src="https://cdn.jsdelivr.net/npm/@wuunu/widget@0.1?cacheParam=953"
+        src="https://cdn.jsdelivr.net/npm/@wuunu/widget@0.1?cacheParam=464"
         strategy="afterInteractive"
         crossOrigin="anonymous"
       />
