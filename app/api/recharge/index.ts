@@ -4,6 +4,7 @@
 
 import { apiRequest, authenticatedRequest } from '@/lib/api-client'
 import { ApiResponse, PackageData } from '@/app/shared/types'
+import * as mockData from './mock-data'
 
 // 充值配置响应
 export interface RechargeConfigResponse {
@@ -102,4 +103,61 @@ export async function fetchPackages(): Promise<ApiResponse<PackageData[]>> {
  */
 export async function fetchPackageById(packageId: number): Promise<ApiResponse<PackageData>> {
   return apiRequest<PackageData>(`/packages/${packageId}`)
+}
+
+/**
+ * 处理充值支付
+ */
+export async function processRechargePayment(orderId: string, paymentData: any): Promise<ApiResponse<any>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockRechargePayment(orderId, paymentData))
+      }, 1000) // 模拟网络延迟
+    })
+  }
+  
+  return apiRequest<any>('/recharge/payment', {
+    method: 'POST',
+    body: JSON.stringify({ orderId, paymentData })
+  })
+}
+
+/**
+ * 处理充值回调
+ */
+export async function handleRechargeCallback(orderId: string, callbackData: any): Promise<ApiResponse<any>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockRechargeCallback(orderId, callbackData))
+      }, 500) // 模拟网络延迟
+    })
+  }
+  
+  return apiRequest<any>('/recharge/callback', {
+    method: 'POST',
+    body: JSON.stringify({ orderId, callbackData })
+  })
+}
+
+/**
+ * 兑换充值码
+ */
+export async function exchangeRechargeCode(token: string, code: string): Promise<ApiResponse<any>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockRechargeExchangeCode('user_1', code))
+      }, 800) // 模拟网络延迟
+    })
+  }
+  
+  return authenticatedRequest<any>('/recharge/exchange-code', token, {
+    method: 'POST',
+    body: JSON.stringify({ code })
+  })
 }

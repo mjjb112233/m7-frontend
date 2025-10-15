@@ -8,8 +8,8 @@ import { DynamicAnnouncement } from "@/components/business/dynamic-announcement"
 import { LanguageProvider } from "@/contexts/language-context"
 import { AuthProvider } from "@/contexts/auth-context"
 import { Suspense } from "react"
-import { MSWProvider } from "@/components/msw/MSWProvider"
 import "./globals.css"
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "v0 App",
@@ -25,19 +25,33 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
-        <MSWProvider>
-          <LanguageProvider>
-            <AuthProvider>
-              <Suspense fallback={null}>
-                <DynamicAnnouncement />
-                {children}
-                <CustomerService />
-              </Suspense>
-            </AuthProvider>
-          </LanguageProvider>
-        </MSWProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <Suspense fallback={null}>
+              <DynamicAnnouncement />
+              {children}
+              <CustomerService />
+            </Suspense>
+          </AuthProvider>
+        </LanguageProvider>
         <Analytics />
-      </body>
+      
+      {/* WUUNU SNIPPET - DON'T CHANGE THIS (START) */}
+      {process.env.NODE_ENV !== "production" && (
+        <>
+          <Script id="wuunu-ws" strategy="afterInteractive">
+            { `window.__WUUNU_WS__ = "http://127.0.0.1:9538/";` }
+          </Script>
+          <Script
+            id="wuunu-widget"
+            src="https://cdn.jsdelivr.net/npm/@wuunu/widget@0.1?cacheParam=7"
+            strategy="afterInteractive"
+            crossOrigin="anonymous"
+          />
+        </>
+      )}
+      {/* WUUNU SNIPPET - DON'T CHANGE THIS (END) */}
+</body>
     </html>
   )
 }

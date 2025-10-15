@@ -4,6 +4,7 @@
 
 import { authenticatedRequest } from '@/lib/api-client'
 import { ApiResponse } from '@/app/shared/types'
+import * as mockData from './mock-data'
 
 // 信息生成配置响应
 export interface InfoGenerateConfigResponse {
@@ -48,7 +49,35 @@ export interface InfoGenerateResultsResponse {
  * 获取信息生成配置
  */
 export async function fetchInfoGenerateConfig(token: string): Promise<ApiResponse<InfoGenerateConfigResponse>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockInfoGenerateConfig())
+      }, 200) // 模拟网络延迟
+    })
+  }
+  
   return authenticatedRequest<InfoGenerateConfigResponse>('/info-generate/config', token)
+}
+
+/**
+ * 获取信息生成价格
+ */
+export async function fetchInfoGeneratePrice(token: string, type: string, count: number): Promise<ApiResponse<any>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockInfoGeneratePrice(type, count))
+      }, 200) // 模拟网络延迟
+    })
+  }
+  
+  return authenticatedRequest<any>('/info-generate/price', token, {
+    method: 'GET',
+    body: JSON.stringify({ type, count })
+  })
 }
 
 /**

@@ -4,6 +4,7 @@
 
 import { authenticatedRequest } from '@/lib/api-client'
 import { ApiResponse } from '@/app/shared/types'
+import * as mockData from './mock-data'
 
 // BIN分类配置响应
 export interface BinClassifyConfigResponse {
@@ -47,6 +48,15 @@ export interface BinClassifyResultsResponse {
  * 获取BIN分类配置
  */
 export async function fetchBinClassifyConfig(token: string): Promise<ApiResponse<BinClassifyConfigResponse>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockBinClassifyConfig())
+      }, 200) // 模拟网络延迟
+    })
+  }
+  
   return authenticatedRequest<BinClassifyConfigResponse>('/bin-classify/config', token)
 }
 
@@ -57,6 +67,15 @@ export async function startBinClassify(
   token: string, 
   requestData: StartBinClassifyRequest
 ): Promise<ApiResponse<StartBinClassifyResponse>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockStartBinClassify(requestData.cardNumbers, requestData))
+      }, 800) // 模拟网络延迟
+    })
+  }
+  
   return authenticatedRequest<StartBinClassifyResponse>('/bin-classify/start', token, {
     method: 'POST',
     body: JSON.stringify(requestData)
@@ -70,6 +89,15 @@ export async function fetchBinClassifyResults(
   token: string, 
   taskId: string
 ): Promise<ApiResponse<BinClassifyResultsResponse>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockBinClassifyResults(taskId))
+      }, 300) // 模拟网络延迟
+    })
+  }
+  
   return authenticatedRequest<BinClassifyResultsResponse>(`/bin-classify/results?taskId=${taskId}`, token)
 }
 

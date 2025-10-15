@@ -45,9 +45,9 @@ export default function Header() {
     if (!user) {
       // 未登录用户：显示CVV检测、BIN分类、充值页面
       defaultItems.push(
-        { href: "/cvv-check", label: t("nav.cvvCheck"), icon: Shield },
-        { href: "/bin-classify", label: t("nav.binClassify"), icon: CreditCard },
-        { href: "/recharge", label: t("nav.recharge"), icon: Zap }
+        { href: "/pages/cvv-check", label: t("nav.cvvCheck"), icon: Shield },
+        { href: "/pages/bin-classify", label: t("nav.binClassify"), icon: CreditCard },
+        { href: "/pages/recharge", label: t("nav.recharge"), icon: Zap }
       )
       return defaultItems
     }
@@ -57,15 +57,15 @@ export default function Header() {
     // 1级用户：显示基础功能（CVV检测、BIN分类、充值）
     if (userLevel >= 1) {
       defaultItems.push(
-        { href: "/cvv-check", label: t("nav.cvvCheck"), icon: Shield },
-        { href: "/bin-classify", label: t("nav.binClassify"), icon: CreditCard },
-        { href: "/recharge", label: t("nav.recharge"), icon: Zap }
+        { href: "/pages/cvv-check", label: t("nav.cvvCheck"), icon: Shield },
+        { href: "/pages/bin-classify", label: t("nav.binClassify"), icon: CreditCard },
+        { href: "/pages/recharge", label: t("nav.recharge"), icon: Zap }
       )
     }
 
     // 2级用户：在1级基础上添加信息生成页面
     if (userLevel >= 2) {
-      defaultItems.push({ href: "/info-generate", label: t("nav.infoGenerate"), icon: Zap })
+      defaultItems.push({ href: "/pages/info-generate", label: t("nav.infoGenerate"), icon: Zap })
     }
 
 
@@ -111,12 +111,12 @@ export default function Header() {
                   <UserDropdown />
                 ) : (
                   <div className="flex items-center space-x-2">
-                    <Link href="/login">
+                    <Link href="/pages/login">
                       <Button variant="ghost" size="sm">
                         {t("nav.login")}
                       </Button>
                     </Link>
-                    <Link href="/register">
+                    <Link href="/pages/register">
                       <Button size="sm">{t("nav.register")}</Button>
                     </Link>
                   </div>

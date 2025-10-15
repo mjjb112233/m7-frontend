@@ -13,6 +13,7 @@ import {
   DetectionMode,
   ErrorType
 } from '@/app/shared/types'
+import * as mockData from './mock-data'
 
 // 用户检测状态响应
 export interface UserDetectionStatusResponse {
@@ -50,6 +51,15 @@ export interface StartDetectionResponse {
  * 获取用户检测状态
  */
 export async function fetchUserDetectionStatus(token: string): Promise<ApiResponse<UserDetectionStatusResponse>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockUserDetectionStatus('user_1'))
+      }, 300) // 模拟网络延迟
+    })
+  }
+  
   return authenticatedRequest<UserDetectionStatusResponse>('/cvv-check/user-status', token)
 }
 
@@ -57,6 +67,15 @@ export async function fetchUserDetectionStatus(token: string): Promise<ApiRespon
  * 获取检测配置
  */
 export async function fetchDetectionConfig(token: string): Promise<ApiResponse<DetectionConfigResponse>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockDetectionConfig())
+      }, 200) // 模拟网络延迟
+    })
+  }
+  
   return authenticatedRequest<DetectionConfigResponse>('/cvv-check/config', token)
 }
 
@@ -67,6 +86,15 @@ export async function fetchDetectionProgress(
   token: string, 
   detectionId?: string
 ): Promise<ApiResponse<DetectionProgressResponse>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockDetectionProgress(detectionId || 'det_123456789'))
+      }, 300) // 模拟网络延迟
+    })
+  }
+  
   const url = detectionId 
     ? `/cvv-check/detection-progress?detectionId=${detectionId}`
     : '/cvv-check/detection-progress'
@@ -83,6 +111,15 @@ export async function fetchDetectionResults(
   token: string, 
   detectionId: string
 ): Promise<ApiResponse<DetectionResultsResponse>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockDetectionResults(detectionId))
+      }, 500) // 模拟网络延迟
+    })
+  }
+  
   return authenticatedRequest<DetectionResultsResponse>('/cvv-check/detection-results', token, {
     method: 'POST',
     body: JSON.stringify({ detectionId })
@@ -96,6 +133,15 @@ export async function startDetection(
   token: string, 
   requestData: StartDetectionRequest
 ): Promise<ApiResponse<StartDetectionResponse>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockStartDetection('user_1', requestData))
+      }, 800) // 模拟网络延迟
+    })
+  }
+  
   return authenticatedRequest<StartDetectionResponse>('/cvv-check/start-detection', token, {
     method: 'POST',
     body: JSON.stringify(requestData)
@@ -109,6 +155,15 @@ export async function stopDetection(
   token: string, 
   detectionId: string
 ): Promise<ApiResponse<{ success: boolean }>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockStopDetection('user_1', detectionId))
+      }, 300) // 模拟网络延迟
+    })
+  }
+  
   return authenticatedRequest<{ success: boolean }>('/cvv-check/stop-detection', token, {
     method: 'POST',
     body: JSON.stringify({ detectionId })
@@ -119,6 +174,15 @@ export async function stopDetection(
  * 重置检测状态
  */
 export async function resetDetectionStatus(token: string): Promise<ApiResponse<{ success: boolean }>> {
+  // 检查是否使用模拟数据
+  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData.getMockResetDetectionStatus('user_1'))
+      }, 200) // 模拟网络延迟
+    })
+  }
+  
   return authenticatedRequest<{ success: boolean }>('/cvv-check/reset-detection-status', token, {
     method: 'GET'
   })
