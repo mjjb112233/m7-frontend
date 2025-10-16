@@ -16,3 +16,6 @@ export * from './info-generate'
 
 // 充值相关API
 export * from './recharge'
+
+// 公告相关API
+export * from './announcements'
