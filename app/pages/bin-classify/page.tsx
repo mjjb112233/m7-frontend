@@ -190,13 +190,20 @@ export default function BinClassifyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <Header />
-      <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-6 py-8">
         {/* 页面标题 */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">BIN分类</h1>
-          <p className="text-xl text-gray-600">智能分析信用卡BIN码，按银行、国家、类型等维度分类</p>
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-6">
+            <BarChart3 className="w-10 h-10 text-white" />
+          </div>
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+            BIN 智能分类
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            基于先进算法的信用卡BIN码分析系统，支持多维度智能分类与可视化展示
+          </p>
         </div>
 
         {/* 主要内容区域 */}
@@ -204,107 +211,165 @@ export default function BinClassifyPage() {
           {/* 左侧：输入和配置区域 */}
           <div className="space-y-6">
             {/* 卡号输入 */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <CreditCard className="w-5 h-5" />
-                  输入卡号
+            <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
+              <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-t-lg">
+                <CardTitle className="flex items-center gap-3 text-xl">
+                  <div className="p-2 bg-white/20 rounded-lg">
+                    <CreditCard className="w-6 h-6" />
+                  </div>
+                  信用卡号输入
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="cardNumbers">信用卡号列表</Label>
+              <CardContent className="p-6 space-y-6">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="cardNumbers" className="text-lg font-semibold text-gray-700">
+                      卡号列表
+                    </Label>
+                    <div className="flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                      {cardInput.split('\n').filter(card => card.trim()).length} 张卡
+                    </div>
+                  </div>
                   <Textarea
                     id="cardNumbers"
                     placeholder="请输入信用卡号，每行一个&#10;例如：&#10;4532123456789012&#10;4532123456789013&#10;4532123456789014"
                     value={cardInput}
                     onChange={(e) => handleCardInput(e.target.value)}
                     rows={8}
-                    className="font-mono"
+                    className="font-mono text-sm border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 rounded-xl resize-none"
                   />
-                  <p className="text-sm text-gray-600">
-                    已输入 {cardInput.split('\n').filter(card => card.trim()).length} 张卡号
-                  </p>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-500">支持批量输入，自动识别BIN码</span>
+                    <span className="text-blue-600 font-medium">
+                      {cardInput.split('\n').filter(card => card.trim()).length > 0 ? '准备就绪' : '等待输入'}
+                    </span>
+                  </div>
                 </div>
               </CardContent>
             </Card>
 
             {/* 分类配置 */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Filter className="w-5 h-5" />
-                  分类配置
+            <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
+              <CardHeader className="bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-t-lg">
+                <CardTitle className="flex items-center gap-3 text-xl">
+                  <div className="p-2 bg-white/20 rounded-lg">
+                    <Filter className="w-6 h-6" />
+                  </div>
+                  智能分类配置
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label>分组方式</Label>
-                  <Select value={groupBy} onValueChange={setGroupBy}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="bank">按银行分组</SelectItem>
-                      <SelectItem value="country">按国家分组</SelectItem>
-                      <SelectItem value="cardType">按卡类型分组</SelectItem>
-                      <SelectItem value="level">按等级分组</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label>排序方式</Label>
-                  <Select value={sortOrder} onValueChange={(value: 'asc' | 'desc') => setSortOrder(value)}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="asc">
-                        <div className="flex items-center gap-2">
-                          <SortAsc className="w-4 h-4" />
-                          升序
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="desc">
-                        <div className="flex items-center gap-2">
-                          <SortDesc className="w-4 h-4" />
-                          降序
-                        </div>
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
+              <CardContent className="p-6 space-y-6">
+                <div className="grid grid-cols-1 gap-6">
+                  <div className="space-y-3">
+                    <Label className="text-lg font-semibold text-gray-700">分组维度</Label>
+                    <Select value={groupBy} onValueChange={setGroupBy}>
+                      <SelectTrigger className="h-12 border-2 border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 rounded-xl">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="bank" className="py-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                              <CreditCard className="w-4 h-4 text-blue-600" />
+                            </div>
+                            <div>
+                              <div className="font-medium">按银行分组</div>
+                              <div className="text-sm text-gray-500">识别发卡银行</div>
+                            </div>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="country" className="py-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                              <Shield className="w-4 h-4 text-green-600" />
+                            </div>
+                            <div>
+                              <div className="font-medium">按国家分组</div>
+                              <div className="text-sm text-gray-500">按发卡国家分类</div>
+                            </div>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="cardType" className="py-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                              <BarChart3 className="w-4 h-4 text-purple-600" />
+                            </div>
+                            <div>
+                              <div className="font-medium">按卡类型分组</div>
+                              <div className="text-sm text-gray-500">Visa、MasterCard等</div>
+                            </div>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="level" className="py-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                              <CheckCircle className="w-4 h-4 text-orange-600" />
+                            </div>
+                            <div>
+                              <div className="font-medium">按等级分组</div>
+                              <div className="text-sm text-gray-500">Standard、Gold、Platinum</div>
+                            </div>
+                          </div>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-3">
+                    <Label className="text-lg font-semibold text-gray-700">排序方式</Label>
+                    <Select value={sortOrder} onValueChange={(value: 'asc' | 'desc') => setSortOrder(value)}>
+                      <SelectTrigger className="h-12 border-2 border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 rounded-xl">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="asc" className="py-3">
+                          <div className="flex items-center gap-3">
+                            <SortAsc className="w-5 h-5 text-green-600" />
+                            <span className="font-medium">升序排列</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="desc" className="py-3">
+                          <div className="flex items-center gap-3">
+                            <SortDesc className="w-5 h-5 text-green-600" />
+                            <span className="font-medium">降序排列</span>
+                          </div>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               </CardContent>
             </Card>
 
             {/* 操作按钮 */}
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex gap-2">
+            <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
+              <CardContent className="p-6">
+                <div className="flex gap-4">
                   {!isProcessing ? (
                     <Button
                       onClick={handleStartClassification}
                       disabled={!cardInput.trim()}
-                      className="flex-1"
+                      className="flex-1 h-14 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <Play className="w-4 h-4 mr-2" />
-                      开始分类
+                      <Play className="w-5 h-5 mr-3" />
+                      开始智能分类
                     </Button>
                   ) : (
                     <Button
                       variant="outline"
                       onClick={handleStopClassification}
-                      className="flex-1"
+                      className="flex-1 h-14 border-2 border-red-300 text-red-600 hover:bg-red-50 font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                     >
-                      <Square className="w-4 h-4 mr-2" />
+                      <Square className="w-5 h-5 mr-3" />
                       停止分类
                     </Button>
                   )}
                   <Button
                     variant="outline"
                     onClick={handleResetClassification}
+                    className="h-14 px-6 border-2 border-gray-300 text-gray-600 hover:bg-gray-50 font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                   >
-                    <RotateCcw className="w-4 h-4 mr-2" />
+                    <RotateCcw className="w-5 h-5 mr-3" />
                     重置
                   </Button>
                 </div>
@@ -337,20 +402,30 @@ export default function BinClassifyPage() {
 
             {/* 分类结果 */}
             {results && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5" />
-                    分类结果
+              <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
+                <CardHeader className="bg-gradient-to-r from-emerald-500 to-cyan-600 text-white rounded-t-lg">
+                  <CardTitle className="flex items-center gap-3 text-xl">
+                    <div className="p-2 bg-white/20 rounded-lg">
+                      <CheckCircle className="w-6 h-6" />
+                    </div>
+                    智能分类结果
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex gap-2 mb-4">
-                    <Button variant="outline" onClick={copyResults}>
+                <CardContent className="p-6 space-y-6">
+                  <div className="flex gap-3 mb-6">
+                    <Button 
+                      variant="outline" 
+                      onClick={copyResults}
+                      className="flex-1 h-12 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 text-blue-700 hover:from-blue-100 hover:to-indigo-100 font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
+                    >
                       <Copy className="w-4 h-4 mr-2" />
                       复制结果
                     </Button>
-                    <Button variant="outline" onClick={downloadResults}>
+                    <Button 
+                      variant="outline" 
+                      onClick={downloadResults}
+                      className="flex-1 h-12 bg-gradient-to-r from-green-50 to-emerald-50 border-green-200 text-green-700 hover:from-green-100 hover:to-emerald-100 font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
+                    >
                       <Download className="w-4 h-4 mr-2" />
                       下载结果
                     </Button>
@@ -358,31 +433,60 @@ export default function BinClassifyPage() {
 
                   <div className="space-y-4">
                     {Object.entries(results).map(([groupKey, cards]) => (
-                      <div key={groupKey} className="border rounded-lg">
+                      <div key={groupKey} className="border-2 border-gray-200 rounded-2xl overflow-hidden hover:border-blue-300 transition-all duration-300">
                         <button
                           onClick={() => toggleGroup(groupKey)}
-                          className="w-full p-4 text-left hover:bg-gray-50 flex items-center justify-between"
+                          className="w-full p-6 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 flex items-center justify-between transition-all duration-300"
                         >
-                          <div className="flex items-center gap-2">
-                            <Badge variant="outline">{groupKey}</Badge>
-                            <span className="text-sm text-gray-600">({cards.length}张卡)</span>
+                          <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                              <span className="text-white font-bold text-lg">
+                                {groupKey.charAt(0).toUpperCase()}
+                              </span>
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-3">
+                                <Badge className="bg-blue-100 text-blue-700 border-blue-200 px-3 py-1 text-sm font-semibold">
+                                  {groupKey}
+                                </Badge>
+                                <span className="text-sm text-gray-600 font-medium">
+                                  {cards.length} 张卡
+                                </span>
+                              </div>
+                            </div>
                           </div>
-                          <div className="text-gray-400">
+                          <div className="text-2xl text-gray-400 hover:text-blue-500 transition-colors duration-300">
                             {expandedGroups.has(groupKey) ? '−' : '+'}
                           </div>
                         </button>
 
                         {expandedGroups.has(groupKey) && (
-                          <div className="p-4 border-t bg-gray-50">
-                            <div className="space-y-2">
+                          <div className="p-6 bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-200">
+                            <div className="space-y-3">
                               {cards.map((card, index) => (
-                                <div key={index} className="flex items-center justify-between p-2 bg-white rounded text-sm">
-                                  <div className="font-mono">{card.bin}</div>
-                                  <div className="flex gap-4 text-gray-600">
-                                    <span>{card.bank}</span>
-                                    <span>{card.country}</span>
-                                    <span>{card.cardType}</span>
-                                    <span>{card.level}</span>
+                                <div key={index} className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                                  <div className="flex items-center gap-4">
+                                    <div className="font-mono text-lg font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">
+                                      {card.bin}
+                                    </div>
+                                    <div className="flex gap-6 text-sm">
+                                      <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                        <span className="font-medium text-gray-700">{card.bank}</span>
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                        <span className="text-gray-600">{card.country}</span>
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                                        <span className="text-gray-600">{card.cardType}</span>
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                                        <span className="text-gray-600">{card.level}</span>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               ))}
